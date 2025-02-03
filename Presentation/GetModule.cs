@@ -30,7 +30,7 @@ public class GetModule() : CarterModule("api/classify-number")
 
                 return Results.Ok(new
                 {
-                    number,
+                    newNumber,
                     is_prime = newNumber.IsPrime(),
                     is_perfect = newNumber.IsPerfect(),
                     properties,
