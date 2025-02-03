@@ -4,11 +4,11 @@ using Task1.Services.Abstractions;
 
 namespace Task1.Presentation;
 
-public class GetModule() : CarterModule("get")
+public class GetModule() : CarterModule("api/classify-number")
 {
     public override void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/{number}", async (string number,
+        app.MapGet("/", async (string number,
                 IHttpClientService httpClientService,
                 IConfiguration configuration) =>
             {

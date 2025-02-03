@@ -42,8 +42,6 @@ public static class IntExtensions
 
     public static bool IsEven(this int number)
     {
-        if (number <= 0)
-            return false;
         return number % 2 == 0;
     }
 
@@ -69,7 +67,7 @@ public static class IntExtensions
     public static int SumOfDigits(this int number)
     {
         return Math.Abs(number)
-            .ToString() 
+            .ToString()
             .ToCharArray()
             .Sum(c => int.Parse(c.ToString()));
     }
