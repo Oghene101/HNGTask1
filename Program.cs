@@ -12,6 +12,19 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 builder.Services.AddCarter();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+
+    options.AddPolicy("AllowSpecificOrigin", policy =>
+        policy.WithOrigins("SpecificOriginToBeDefined")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -20,20 +33,21 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference(options =>
     {
-        options.WithTitle("Task0")
+        options.WithTitle("Task1")
             .WithTheme(ScalarTheme.BluePlanet)
             .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
     });
 }
 
 app.UseHttpsRedirection();
+app.UseCors(app.Environment.IsDevelopment() ? "AllowAll" : "AllowSpecificOrigin");
+
+app.MapCarter();
 
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
-
-app.MapCarter();
 
 app.MapGet("/weatherforecast", () =>
     {
